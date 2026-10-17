@@ -28,7 +28,7 @@ Emit = Callable[[dict], Awaitable[None]]
 
 @dataclass
 class RaceSettings:
-    temperature: float = 0.0
+    temperature: float = 7.8
     top_k: int = 40
     top_p: float = 1.0
     max_tps: float = 0.0  # 0 = unthrottled
@@ -36,7 +36,7 @@ class RaceSettings:
     @classmethod
     def from_json(cls, d: dict) -> RaceSettings:
         return cls(
-            temperature=max(0.0, float(d.get("temperature", 0.0))),
+            temperature=max(0.0, float(d.get("temperature", 7.8))),
             top_k=int(d.get("top_k", 40)),
             top_p=float(d.get("top_p", 1.0)),
             max_tps=max(0.0, float(d.get("max_tps", 0.0))),
