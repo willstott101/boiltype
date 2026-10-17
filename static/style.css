@@ -1,0 +1,115 @@
+:root {
+  --bg: #16161a;
+  --panel: #1f1f25;
+  --fg: #e8e6e3;
+  --dim: #6b6b76;
+  --you: #7dd3a7;
+  --model: #f0a35e;
+  --bad: #ef5d6c;
+  --mono: ui-monospace, "JetBrains Mono", "Fira Code", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.5 system-ui, sans-serif;
+}
+
+main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
+header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+h1 { font: 700 28px var(--mono); margin: 0 0 16px; letter-spacing: -1px; }
+h1 span { color: var(--model); }
+.status { color: var(--dim); font-size: 13px; text-align: right; }
+.status.ready { color: var(--you); }
+.status.error { color: var(--bad); }
+
+.lanes { display: grid; gap: 10px; margin-bottom: 18px; }
+.lane-head { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+.who { font-weight: 600; }
+.you .who { color: var(--you); }
+.model .who { color: var(--model); }
+.stats { color: var(--dim); font-family: var(--mono); }
+.bar { height: 8px; background: var(--panel); border-radius: 4px; overflow: hidden; }
+.bar div { height: 100%; width: 0; transition: width 80ms linear; }
+#you-bar { background: var(--you); }
+#model-bar { background: var(--model); }
+
+.board {
+  position: relative;
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 24px 24px 64px;
+  min-height: 160px;
+}
+.text {
+  font: 22px/1.9 var(--mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--dim);
+}
+.text .hint { font: 16px system-ui, sans-serif; }
+.text span.c { position: relative; border-bottom: 3px solid transparent; }
+.text span.ok { color: var(--fg); }
+.text span.miss { animation: miss 300ms ease-out; }
+@keyframes miss {
+  0% { color: var(--bad); background: color-mix(in srgb, var(--bad) 35%, transparent); }
+  100% { background: transparent; }
+}
+.text span.m { border-bottom-color: color-mix(in srgb, var(--model) 70%, transparent); }
+.text span.cursor::before {
+  content: ""; position: absolute; left: -1px; top: 0.25em; bottom: 0.25em;
+  width: 2px; background: var(--you); animation: blink 1s steps(1) infinite;
+}
+.text span.mcursor::after {
+  content: ""; position: absolute; left: -1px; bottom: -3px;
+  width: 3px; height: 1.3em; background: var(--model);
+}
+.text.finished span.cursor::before { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.typo {
+  position: absolute; z-index: 2; pointer-events: none;
+  font: 13px var(--mono); color: #fff; background: var(--bad);
+  padding: 1px 5px; border-radius: 4px; white-space: pre;
+  transform: translate(-2px, -110%);
+  animation: typo 900ms ease-out forwards;
+}
+@keyframes typo {
+  0% { opacity: 1; transform: translate(-2px, -110%); }
+  100% { opacity: 0; transform: translate(-2px, -220%); }
+}
+
+.overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--panel) 80%, transparent);
+  border-radius: 10px; font: 700 56px var(--mono); text-align: center;
+}
+.overlay small { display: block; font: 15px system-ui, sans-serif; color: var(--dim); margin-top: 8px; }
+.overlay.win, .overlay.lose {
+  inset: auto 16px 10px auto; background: none; font-size: 22px; text-align: right;
+}
+.overlay.win small, .overlay.lose small { font-size: 12px; margin-top: 0; }
+.overlay.win { color: var(--you); }
+.overlay.lose { color: var(--model); }
+.hidden { display: none; }
+
+.controls {
+  display: flex; flex-wrap: wrap; gap: 18px; align-items: end; margin-top: 18px;
+}
+.controls label { display: grid; gap: 4px; font-size: 13px; color: var(--dim); min-width: 160px; flex: 1; }
+.controls output { color: var(--fg); font-family: var(--mono); }
+.controls input { width: 100%; accent-color: var(--model); }
+button {
+  background: var(--model); color: #1a1208; border: 0; border-radius: 8px;
+  padding: 10px 18px; font: 600 15px system-ui, sans-serif; cursor: pointer;
+}
+button:disabled { opacity: .5; cursor: default; }
+kbd { font: 11px var(--mono); opacity: .7; border: 1px solid currentColor; border-radius: 3px; padding: 0 4px; }
+
+.log { margin-top: 18px; font: 13px var(--mono); color: var(--dim); display: flex; flex-wrap: wrap; gap: 6px; }
+.log .t { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); padding: 1px 6px; border-radius: 4px; white-space: pre; }
+.log .t b { color: var(--dim); font-weight: normal; }

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>boiltype</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>boil<span>type</span></h1>
+      <div id="status" class="status">connecting…</div>
+    </header>
+
+    <section class="lanes">
+      <div class="lane you">
+        <div class="lane-head"><span class="who">You</span><span id="you-stats" class="stats">–</span></div>
+        <div class="bar"><div id="you-bar"></div></div>
+      </div>
+      <div class="lane model">
+        <div class="lane-head"><span class="who" id="model-name">Model</span><span id="model-stats" class="stats">–</span></div>
+        <div class="bar"><div id="model-bar"></div></div>
+      </div>
+    </section>
+
+    <section id="board" class="board">
+      <div id="text" class="text"><span class="hint">Press <kbd>Enter</kbd> to start a race.</span></div>
+      <div id="overlay" class="overlay hidden"></div>
+    </section>
+
+    <section class="controls">
+      <label>Temperature <output id="temp-out">0.0</output>
+        <input id="temperature" type="range" min="0" max="8" step="0.1" value="0">
+      </label>
+      <label>Top-k <output id="topk-out">40</output>
+        <input id="top_k" type="range" min="1" max="200" step="1" value="40">
+      </label>
+      <label>Max tok/s <output id="tps-out">∞</output>
+        <input id="max_tps" type="range" min="0" max="60" step="1" value="0">
+      </label>
+      <button id="start">Start <kbd>Enter</kbd></button>
+    </section>
+
+    <section id="log" class="log" aria-label="Model typos"></section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

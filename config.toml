@@ -1,0 +1,36 @@
+default_profile = "cpu"
+
+[server]
+host = "127.0.0.1"
+port = 8080
+
+# Each profile picks a runtime (see RUNTIMES in boiltype/runtimes.py) and its
+# options. Select one with `--profile NAME`.
+
+[profiles.cpu]
+runtime = "llama.cpp"
+binary = "~/.local/bin/llama"     # or "llama-server" for upstream builds
+subcommand = ["serve"]            # [] for llama-server
+hf_repo = "ggml-org/gemma-4-E2B-it-GGUF:Q8_0"
+# model_path = "~/models/gemma.gguf"  # takes precedence over hf_repo
+port = 9955
+ctx_size = 4096
+gpu_layers = 0
+extra_args = ["--no-webui"]
+
+[profiles.gpu]
+runtime = "llama.cpp"
+binary = "~/.local/bin/llama"
+subcommand = ["serve"]
+hf_repo = "ggml-org/gemma-4-E2B-it-GGUF:Q8_0"
+port = 9955
+ctx_size = 4096
+gpu_layers = 999
+# device = "Vulkan0"
+extra_args = ["--no-webui"]
+
+# Attach to a llama server you already started yourself.
+[profiles.external]
+runtime = "llama.cpp"
+spawn = false
+url = "http://127.0.0.1:9955"
